@@ -16,9 +16,9 @@ jobs:
         with:
           version: latest
 
-  test-linux:
+  swift-format:
     runs-on: ubuntu-latest
     container: swift:noble
     steps:
       - uses: actions/checkout@v5
-      - run: swift format lint --recursive Sources Tests
+      - run: swift format lint --configuration .swift-format --recursive Sources Tests
