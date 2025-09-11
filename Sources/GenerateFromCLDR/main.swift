@@ -84,15 +84,23 @@ do {
   let (data, _) = try await URLSession.shared.data(from: downloadURL)
   let decoder = JSONDecoder()
   let map = try decoder.decode(CLDRPluralMap.self, from: data)
-  guard
-    let outputURL = URL(filePath: #filePath)?
+  #if os(macOS)
+    guard
+      let outputURL = URL(filePath: #filePath)?
+        .deletingLastPathComponent()
+        .deletingLastPathComponent()
+        .appending(
+          path: "LocaleLanguageMorphologyExtensions/LocaleLanguageMorphologyExtensions.swift")
+    else {
+      fatalError("Failed to create output URL")
+    }
+  #else
+    let outputURL = URL(filePath: #filePath)
       .deletingLastPathComponent()
       .deletingLastPathComponent()
       .appending(
         path: "LocaleLanguageMorphologyExtensions/LocaleLanguageMorphologyExtensions.swift")
-  else {
-    fatalError("Failed to create output URL")
-  }
+  #endif
 
   let lookupMap = map.supplemental.cardinal
     .sorted(by: { $0.key.identifier < $1.key.identifier })
