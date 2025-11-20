@@ -10,7 +10,7 @@ jobs:
   swiftlint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: SwiftLint
         uses: cirruslabs/swiftlint-action@v1
         with:
@@ -20,5 +20,5 @@ jobs:
     runs-on: ubuntu-latest
     container: swift:noble
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - run: swift format lint --recursive Sources Tests
